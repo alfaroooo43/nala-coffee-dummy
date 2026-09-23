@@ -1,0 +1,7 @@
+@extends('admin.layouts.app')
+@section('content')
+<h1 class="h3 mb-4">{{ $title }}</h1>
+<form class="row g-2 mb-4" method="GET"><div class="col-auto"><input class="form-control" type="date" name="start_date" value="{{ $start->toDateString() }}"></div><div class="col-auto"><input class="form-control" type="date" name="end_date" value="{{ $end->toDateString() }}"></div><div class="col-auto"><button class="btn btn-dark">Terapkan</button></div></form>
+<div class="row g-3 mb-4">@foreach ($metrics as $label => $value)<div class="col-sm-6 col-xl-3"><div class="card border-0 shadow-sm h-100"><div class="card-body"><div class="text-muted small">{{ $label }}</div><div class="fs-4 fw-bold">{{ $value }}</div></div></div></div>@endforeach</div>
+@if ($rows->isNotEmpty())<div class="card border-0 shadow-sm"><div class="table-responsive"><table class="table table-hover mb-0"><thead><tr><th>Waktu</th><th>Detail</th><th>Device</th><th>Sumber</th></tr></thead><tbody>@foreach ($rows as $row)<tr><td>{{ optional($row->visited_at ?? $row->clicked_at ?? $row->registered_at)->format('d M Y H:i') }}</td><td>{{ $row->page ?? ($row->product?->name ?? $row->name ?? '-') }}</td><td>{{ $row->device ?? '-' }}</td><td>{{ $row->source ?? '-' }}</td></tr>@endforeach</tbody></table></div></div>@else<div class="card border-0 shadow-sm"><div class="card-body text-center text-muted">Belum ada data.</div></div>@endif
+@endsection
